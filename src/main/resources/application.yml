@@ -8,6 +8,14 @@ server:
       force: true
 
 spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+    tymeleaf:
+      cache: false
+
   mvc:
     view:
       prefix: /WEB-INF/views/
