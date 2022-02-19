@@ -28,7 +28,7 @@ let index = {
         // ajax가 통신을 성공하고 Json을 리턴해주면, 서버가 자동으로 java object로 변환해줌
          $.ajax({
             type: "POST",
-            url: "/blog/api/user",
+            url: "/api/user",
             data: JSON.stringify(data), // http body데이터
             contentType: "application/json; charset=utf-8", // body데이터 타입
             dataType: "json" // response결과가 json이면 javascript object로 변환
@@ -36,7 +36,7 @@ let index = {
            // alert(resp);
            // console.log(resp);
             alert("회원가입이 완료되었습니다.");
-            location.href="/blog";
+            location.href="/";
         }).fail(function (error){
             alert(JSON.stringify(error));
             
@@ -51,7 +51,7 @@ let index = {
 
         $.ajax({
             type: "POST",
-            url: "/blog/api/user/login",
+            url: "/api/user/login",
             data: JSON.stringify(data), // http body데이터
             contentType: "application/json; charset=utf-8", // body데이터 타입
             dataType: "json" // response결과가 json이면 javascript object로 변환
@@ -59,7 +59,7 @@ let index = {
             // alert(resp);
             // console.log(resp);
             alert("로그인이 완료되었습니다.");
-            location.href="/blog";
+            location.href="/";
         }).fail(function (error){
             alert(JSON.stringify(error));
 

@@ -28,6 +28,6 @@ To change this template use File | Settings | File Templates.
     </form>
 </div>
 <button id="btn-login" class="btn btn-primary">로그인</button>
-<script src="/blog/js/user.js"></script>
+<script src="/js/user.js"></script>
 
 <%@ include file="../layout/footer.jsp" %>
