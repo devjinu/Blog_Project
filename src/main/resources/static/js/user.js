@@ -8,6 +8,10 @@ let index = {
             this.save();
         });
 
+        $("#btn-login").on("click", ()=>{
+            this.login();
+        });
+
     },
     save:function (){
         // alert('user의 save함수 호출');
@@ -36,6 +40,29 @@ let index = {
         }).fail(function (error){
             alert(JSON.stringify(error));
             
+        });
+    },
+
+    login:function (){
+        let data = {
+            username: $("#username").val(),
+            password: $("#password").val()
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/blog/api/user/login",
+            data: JSON.stringify(data), // http body데이터
+            contentType: "application/json; charset=utf-8", // body데이터 타입
+            dataType: "json" // response결과가 json이면 javascript object로 변환
+        }).done(function (resp){
+            // alert(resp);
+            // console.log(resp);
+            alert("로그인이 완료되었습니다.");
+            location.href="/blog";
+        }).fail(function (error){
+            alert(JSON.stringify(error));
+
         });
     }
     
