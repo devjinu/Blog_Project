@@ -1,7 +1,10 @@
 package com.cos.blog_project.config;
 
+import com.cos.blog_project.config.auth.PrincipalDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,11 +16,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true) // 특정 주소로 접근을하면, 권한 및 인증을 미리 체크하겠다는 의미
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private PrincipalDetailService principalDetailService;
+
     @Bean // IoC -> 리턴 값을 스프링이 관리
     public BCryptPasswordEncoder encodePWD(){
         return new BCryptPasswordEncoder();
     }
 
+    // 로그인 할 때의 암호화된 비밀번호와 DB에 저장되어 있는 암호화된 비밀번호가 일치하는지 비교
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(principalDetailService).passwordEncoder(encodePWD());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
             .and()
                 .formLogin()
-                .loginPage("/auth/loginForm");
+                .loginPage("/auth/loginForm") // 인증이 되지 않은 요청이 오는 곳
+                .loginProcessingUrl("/auth/loginProc") // 스프링 시큐리티가 해당주소로 요청하는 로그인을 가로채서 대신 로그인해줌
+                .defaultSuccessUrl("/"); // 요청이 정상적으로 완료
     }
 }
