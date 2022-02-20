@@ -1,20 +1,24 @@
 package com.cos.blog_project.controller;
 
-import com.cos.blog_project.config.auth.PrincipalDetail;
+
+import com.cos.blog_project.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Controller
 public class BoardController {
 
+    @Autowired
+    private BoardService boardService;
+
     @GetMapping({"","/"})
-    public String index(){ // 컨트롤러에서 세션 찾는 법
-        // System.out.println("로그인 사용자 아이디 "+ principal.getUsername());
-        return "index";
+    public String index(Model model){ // 컨트롤러에서 세션 찾는 법
+        model.addAttribute("boards",boardService.글목록());
+        return "index";  // 리턴 시 vierResolver 작동 -> 모델의 정보를 가지고 이동
     }
 
     // USER 권한이 필요
