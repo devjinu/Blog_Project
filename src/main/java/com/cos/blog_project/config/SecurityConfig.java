@@ -4,6 +4,7 @@ import com.cos.blog_project.config.auth.PrincipalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean // IoC -> 리턴 값을 스프링이 관리
     public BCryptPasswordEncoder encodePWD(){
         return new BCryptPasswordEncoder();
+    }
+
+    // 세션 초기화
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     // 로그인 할 때의 암호화된 비밀번호와 DB에 저장되어 있는 암호화된 비밀번호가 일치하는지 비교
@@ -45,4 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/auth/loginProc") // 스프링 시큐리티가 해당주소로 요청하는 로그인을 가로채서 대신 로그인해줌
                 .defaultSuccessUrl("/"); // 요청이 정상적으로 완료
     }
+
+ 
 }
