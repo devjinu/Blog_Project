@@ -1,9 +1,11 @@
 package com.cos.blog_project.service;
 
 import com.cos.blog_project.model.Board;
+import com.cos.blog_project.model.Reply;
 import com.cos.blog_project.model.RoleType;
 import com.cos.blog_project.model.User;
 import com.cos.blog_project.repository.BoardRepository;
+import com.cos.blog_project.repository.ReplyRepository;
 import com.cos.blog_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,9 @@ public class BoardService {
 
     @Autowired
     public BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Transactional
     public void 글쓰기(Board board, User user) {
@@ -58,5 +63,19 @@ public class BoardService {
         board.setContent(requestBoard.getContent());
         // 해당 함수 종료 시(Service가 종료될 때) 트랜잭션이 종료 -> 더티체킹 -> 자동 업데이트가 됨(DB flush)
     }
+
+    @Transactional
+    public void 댓글쓰기(User user, int boardId, Reply requestReply){
+
+       Board board = boardRepository.findById(boardId).orElseThrow(()->{
+            return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 아이디를 찾을 수 없습니다");
+        }); // 영속화 완료
+
+        requestReply.setUser(user);
+        requestReply.setBoard(board);
+
+        replyRepository.save(requestReply);
+    }
+
 
 }

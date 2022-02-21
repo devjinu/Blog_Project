@@ -3,6 +3,7 @@ package com.cos.blog_project.controller.api;
 import com.cos.blog_project.config.auth.PrincipalDetail;
 import com.cos.blog_project.dto.ResponseDto;
 import com.cos.blog_project.model.Board;
+import com.cos.blog_project.model.Reply;
 import com.cos.blog_project.model.User;
 import com.cos.blog_project.service.BoardService;
 import com.cos.blog_project.service.UserService;
@@ -34,6 +35,14 @@ public class BoardApiController {
     @PutMapping("/api/board/{id}")
     public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
         boardService.글수정하기(id,board);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
+
+    @PostMapping("/api/board/{id}/reply")
+    public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail principal){
+
+        boardService.댓글쓰기(principal.getUser(), boardId, reply);
+        System.out.println("BoardApiController : save 호출");
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
