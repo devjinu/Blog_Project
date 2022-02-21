@@ -8,6 +8,9 @@ server:
       enabled: true
       force: true
 
+cos:
+  key: cos1234
+
 spring:
   devtools:
     livereload:

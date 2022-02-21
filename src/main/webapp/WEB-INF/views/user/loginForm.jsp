@@ -21,6 +21,8 @@ To change this template use File | Settings | File Templates.
             <input type="password" name="password" class="form-control" placeholder="Enter password" id="password">
         </div>
         <button id="btn-login" name="remember" class="btn btn-primary">로그인</button>
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=693f9b4dd3aaa35932ab9fb9aee71d7e&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code">
+            <image height="38" src="/image/kakao_login.png" /></a>
     </form>
 </div>
 
