@@ -73,7 +73,7 @@ let index = {
         // alert('user의 save함수 호출');
         let data = {
             id: $("#id").val(),
-            username : $("#username").val(),
+            username: $("#username").val(),
             password: $("#password").val(),
             email: $("#email").val()
         }
@@ -87,8 +87,13 @@ let index = {
         }).done(function (resp) {
             // alert(resp);
             // console.log(resp);
-            alert("회원 정보수정이 완료되었습니다.");
-            location.href = "/";
+            if (resp.status === 500) {
+                alert("회원가입에 실패하였습니다");
+            } else {
+                alert("회원 정보수정이 완료되었습니다.");
+                location.href = "/";
+            }
+            
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
